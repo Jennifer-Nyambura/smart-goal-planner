@@ -14,7 +14,7 @@ export default function Home() {
   }, []);
 
   const fetchGoals = () => {
-    fetch("http://localhost:3001/goals")
+    fetch("http://localhost:3001/api/goals")
       .then((res) => res.json())
       .then((data) => setGoals(data))
       .catch((err) => console.error("Fetch error:", err));
@@ -23,8 +23,8 @@ export default function Home() {
   const handleAddOrUpdateGoal = (goal) => {
     const method = goal.id ? "PATCH" : "POST";
     const url = goal.id
-      ? `http://localhost:3001/goals/${goal.id}`
-      : "http://localhost:3001/goals";
+      ? `http://localhost:3001/api/goals/${goal.id}`
+      : "http://localhost:3001/api/goals";
 
     fetch(url, {
       method,
@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   const handleDeleteGoal = (id) => {
-    fetch(`http://localhost:3001/goals/${id}`, { method: "DELETE" }).then(
+    fetch(`http://localhost:3001/api/goals/${id}`, { method: "DELETE" }).then(
       fetchGoals
     );
   };

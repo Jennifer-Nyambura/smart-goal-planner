@@ -10,7 +10,7 @@ export default function Dashboard() {
   const [editingGoal, setEditingGoal] = useState(null);
 
   const fetchGoals = () => {
-    fetch("http://localhost:3001/goals")
+    fetch("http://localhost:3001/api/goals")
       .then((res) => res.json())
       .then(setGoals)
       .catch((err) => console.error("Fetch error:", err));
@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   const handleSaveGoal = (goal) => {
     if (editingGoal) {
-      fetch(`http://localhost:3001/goals/${editingGoal.id}`, {
+      fetch(`http://localhost:3001/api/goals/${editingGoal.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(goal),
@@ -31,7 +31,7 @@ export default function Dashboard() {
         setEditingGoal(null);
       });
     } else {
-      fetch("http://localhost:3001/goals", {
+      fetch("http://localhost:3001/api/goals", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...goal, savedAmount: 0, createdAt: new Date() }),
@@ -40,7 +40,7 @@ export default function Dashboard() {
   };
 
   const handleDeleteGoal = (id) => {
-    fetch(`http://localhost:3001/goals/${id}`, {
+    fetch(`http://localhost:3001/api/goals/${id}`, {
       method: "DELETE",
     }).then(fetchGoals);
   };
@@ -48,7 +48,7 @@ export default function Dashboard() {
   const handleDeposit = (goalId, amount) => {
     const goal = goals.find((g) => g.id === goalId);
     const updatedAmount = Number(goal.savedAmount) + Number(amount);
-    fetch(`http://localhost:3001/goals/${goalId}`, {
+    fetch(`http://localhost:3001/api/goals/${goalId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ savedAmount: updatedAmount }),
